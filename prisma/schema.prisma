@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model magazines {
+  id                  String    @id
+  theme               String
+  descriptionTheme    String
+  slug                String    @unique
+  quarter             String
+  year                String
+  ageGroup            String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime?
+  lessons             lessons[]
+}
+
+model lessons {
+  id          String    @id 
+  theme       String
+  slug        String    @unique
+  mainText    String
+  bibleText   String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+  magazines   magazines @relation(fields: [magazinesSlug], references: [slug])
+  magazinesSlug String
+}
