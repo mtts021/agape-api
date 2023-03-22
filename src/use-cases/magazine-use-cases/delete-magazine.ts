@@ -1,3 +1,4 @@
+import { Magazine } from '../../app/entities/magazine';
 import { MagazineRepository } from '../../app/repositories/magazine-repository';
 
 export class DeleteMagazine {

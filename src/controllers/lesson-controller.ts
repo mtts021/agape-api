@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as Yup from 'yup';
 import { PrismaLessonRepository } from '../database/repositories/prisma-lesson-repository';
 import { PrismaMagazineRepository } from '../database/repositories/prisma-magazine-repository';
@@ -10,7 +10,7 @@ import { UpdateLesson } from '../use-cases/lesson-use-cases/update-lesson';
 
 
 export class LessonController {
-    async create(req: Request<{ magazineSlug: string }>, res: Response ) {
+    async create(req: Request<{ magazineSlug: string }>, res: Response, next: NextFunction ) {
         const lessonRepository = new PrismaLessonRepository();
         const magazineRepository = new PrismaMagazineRepository();
         const createLesson = new CreateLesson(lessonRepository, magazineRepository);
@@ -40,71 +40,65 @@ export class LessonController {
             });
             return res.status(201).json(magazine);
         } catch (error) {
-            return res.status(400).json(`message: ${error}`);
+            next(error);
         }
     }
     
-    async getAll(req: Request, res: Response ) {
+    async getAll(req: Request, res: Response, next: NextFunction) {
         const lessonsRepository = new PrismaLessonRepository();
         const getAllLesson = new GetAllLesson(lessonsRepository);
         const {magazineSlug} = req.params;
         try {
             
             const Lessons = await getAllLesson.execute(magazineSlug);
-            if(Lessons.length <= 0) {
-                return res.status(404).json({
-                    message: 'no registered lesson'
-                });
-            }
+
             return res.status(200).json(Lessons);
 
         } catch (error) {
-            return res.sendStatus(500);
+            next(error);
         }
     }
 
-    async findBySlug(req: Request<{magazineSlug: string, lessonSlug: string}>, res: Response ) {
+    async findBySlug(req: Request<{magazineSlug: string, lessonSlug: string}>, res: Response, next: NextFunction ) {
         const lessonRepository = new PrismaLessonRepository();
         const findBySlugLessons = new FindBySlugLesson(lessonRepository);
         const {magazineSlug, lessonSlug} = req.params;
         try {
             const lesson = await findBySlugLessons.execute(magazineSlug, lessonSlug);
-            if(!lesson){
-                return res.sendStatus(404);
-            }
             return res.status(200).json(lesson);
         } catch (error) {
-            res.sendStatus(500);
+            next(error);
         }
     }
 
 
-    async update(req: Request<{magazineSlug: string, lessonSlug: string}>, res: Response ) {
+    async update(req: Request<{magazineSlug: string, lessonSlug: string}>, res: Response, next: NextFunction ) {
         const lessonsRepository = new PrismaLessonRepository();
         const updateLesson = new UpdateLesson(lessonsRepository);
         const {magazineSlug, lessonSlug} = req.params;
-        if(!req.body) {
+        if(Object.keys(req.body).length <= 0) {
             return res.status(400).json({'Error': 'No fields were provided'});
         }
         try {
             const lesson = await updateLesson.execute({magazineSlug, lessonSlug, ...req.body});
             return res.status(200).json(lesson);
         } catch (error) {
-            return res.sendStatus(404);
+            next(error);
         }
     
     }
 
-    async delete(req: Request<{id: string}>, res: Response ) {
+    async delete(req: Request<{magazineSlug: string,lessonSlug: string}>, res: Response, next: NextFunction ) {
         const lessonRepository = new PrismaLessonRepository();
         const deleteLesson = new DeleteLesson(lessonRepository);
+        const {magazineSlug, lessonSlug} = req.params;
     
         try {
-            await deleteLesson.execute(req.params.id);
+            await deleteLesson.execute(magazineSlug, lessonSlug);
+            res.sendStatus(200);
         } catch (error) {
-            return res.sendStatus(400);
+            next(error);
         }
         
-        res.sendStatus(200);
     }
 }

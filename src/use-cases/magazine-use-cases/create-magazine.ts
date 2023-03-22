@@ -16,8 +16,8 @@ export class CreateMagazine {
     async execute(request: MagazineCreateRequest): Promise<Magazine> {
         const {theme, descriptionTheme, quarter, year, ageGroup} = request;
         const magazineSlug = slug(theme);
-        const magazineAlready = await this.magazineRepository.findBySlug(magazineSlug);
-        if(magazineAlready) {
+        const magazineAlreadyExists = await this.magazineRepository.findBySlug(magazineSlug);
+        if(magazineAlreadyExists) {
             throw new Error('Magazine already exists');
         }
         

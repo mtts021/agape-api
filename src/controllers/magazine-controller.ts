@@ -9,7 +9,7 @@ import { FindBySlugMagazine } from '../use-cases/magazine-use-cases/find-by-slug
 
 
 export class MagazineController {
-    async create(req: Request, res: Response ) {
+    async create(req: Request, res: Response, next: NextFunction ) {
         const magazineRepository = new PrismaMagazineRepository();
         const createMagazine = new CreateMagazine(magazineRepository);
         const schema = Yup.object().shape({
@@ -38,38 +38,32 @@ export class MagazineController {
             });
             return res.status(201).json(magazine);
         } catch (error) {
-            return res.status(400).json(`message: ${error}`);
+            next(error);
         }
         
     }
 
-    async getAll(req: Request, res: Response ) {
+    async getAll(req: Request, res: Response, next: NextFunction ) {
         const magazineRepository = new PrismaMagazineRepository();
         const getAllMagazine = new GetAllMagazine(magazineRepository);
         try {
             const magazine = await getAllMagazine.execute();
-            if(magazine.length <= 0) {
-                return res.status(404).send('no registered magazine');
-            }
             return res.status(200).json(magazine);
         } catch (error) {
-            return res.sendStatus(500);
+            next(error);
         }
     }
 
-    async findBySlug(req: Request<{slug: string}>, res: Response ) {
+    async findBySlug(req: Request<{slug: string}>, res: Response, next: NextFunction ) {
         const magazineRepository = new PrismaMagazineRepository();
         const findBySlugMagazine = new FindBySlugMagazine(magazineRepository);
         const {slug} = req.params;
         try {
             const magazine = await findBySlugMagazine.execute(slug);
-            if(!magazine) {
-                return res.sendStatus(404);
-            }
             return res.status(200).json(magazine);
             
         } catch (error) {
-            return res.sendStatus(404);
+            next(error);
         }
     }
     
@@ -88,16 +82,16 @@ export class MagazineController {
         }
     }
 
-    async delete(req: Request<{magazineSlug: string}>, res: Response ) {
+    async delete(req: Request<{magazineSlug: string}>, res: Response, next: NextFunction ) {
         const magazineRepository = new PrismaMagazineRepository();
         const deleteMagazine = new DeleteMagazine(magazineRepository);
+
         try {
             await deleteMagazine.execute(req.params.magazineSlug);
+            return res.sendStatus(200);
         } catch (error) {
-            next
+            next(error);
         }
-        
-        res.sendStatus(200);
     
     }
 }

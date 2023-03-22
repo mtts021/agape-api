@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./build/src/app.js",
     "build": "rimraf ./build && tsc",
     "test": "vitest",
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify ./src/app.ts"

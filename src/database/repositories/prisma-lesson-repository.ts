@@ -11,7 +11,6 @@ export class PrismaLessonRepository implements LessonRepository {
     }
     async create(lesson: Lesson): Promise<void> {
         const raw = PrismaLessonsMapper.toPrisma(lesson);
-        console.log(raw);
         await this.prisma.lessons.create({
             data: raw
         });
@@ -65,10 +64,10 @@ export class PrismaLessonRepository implements LessonRepository {
         });
     }
 
-    async delete(id: string): Promise<void> {
+    async delete(lessonSlug: string): Promise<void> {
         await this.prisma.lessons.delete({
             where:{
-                id
+                slug: lessonSlug
             }
         });
     }

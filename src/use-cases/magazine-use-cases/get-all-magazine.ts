@@ -7,6 +7,9 @@ export class GetAllMagazine {
     
     async execute(): Promise<Magazine[]> {
         const allMagazines = await this.magazineRepository.getAll();
+        if(allMagazines.length <= 0) {
+            throw new Error('no magazine registers');
+        }
         return allMagazines;
     }
 }

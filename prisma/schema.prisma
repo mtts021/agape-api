@@ -32,6 +32,6 @@ model lessons {
   content     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime?
-  magazines   magazines @relation(fields: [magazinesSlug], references: [slug])
+  magazines   magazines @relation(fields: [magazinesSlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
   magazinesSlug String
 }

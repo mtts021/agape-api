@@ -10,6 +10,6 @@ lessonRouter.get('/magazine/:magazineSlug/lessons', lessonController.getAll);
 lessonRouter.get('/magazine/:magazineSlug/lesson/:slug', lessonController.findBySlug );
 lessonRouter.post('/magazine/:magazineSlug/lesson', lessonController.create);
 lessonRouter.put('/magazine/:magazineSlug/lesson/:lessonSlug', lessonController.update);
-lessonRouter.delete('/magazine/:magazineSlug/lesson/:id', lessonController.delete);
+lessonRouter.delete('/magazine/:magazineSlug/lesson/:lessonSlug', lessonController.delete);
 
 export default lessonRouter;
