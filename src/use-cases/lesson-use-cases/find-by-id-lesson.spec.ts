@@ -50,7 +50,7 @@ describe('Find By id Lessons', async  ()=> {
         expect(lessonOne).toEqual(lesson);
     });
 
-    it('should not be able to find by id a non existing lesson', async () => {
+    it('should not be able to find by slug a non existing lesson', async () => {
         expect( async ()=> {
             await findByIdLesson.execute('example-id-fake');
         }).toThrowError;

@@ -41,8 +41,8 @@ export class InMemoryLessonRepository implements LessonRepository {
         this.lessons[index] = request;
     }
 
-    async delete(id: string): Promise<void> {
-        const lesson =  this.lessons.find(Lessons => Lessons.id == id);
+    async delete(lessonSlug: string): Promise<void> {
+        const lesson =  this.lessons.find(Lessons => Lessons.slug == lessonSlug );
         if(!lesson){
             throw new Error('lesson not found');
         }

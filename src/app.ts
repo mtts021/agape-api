@@ -1,5 +1,6 @@
 import express from 'express';
 import errorHandler from './app/middleware/error-handler.middleware';
+import adminRouter from './routes/admin-route';
 import lessonRouter from './routes/lesson-route';
 import magazineRouter from './routes/magazine-route';
 
@@ -11,6 +12,7 @@ server.use(express.urlencoded({extended: true}));
 
 server.use(magazineRouter);
 server.use(lessonRouter);
+server.use(adminRouter);
 
 server.use(errorHandler);
 

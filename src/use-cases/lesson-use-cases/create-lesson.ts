@@ -25,8 +25,8 @@ export class CreateLesson {
             throw new Error('magazine does not exist');
         }
         
-        const lessonAlready = await this.lessonRepository.findBySlug(magazineSlug, lessonSlug);
-        if(lessonAlready) {
+        const lessonAlreadyExists = await this.lessonRepository.findBySlug(magazineSlug, lessonSlug);
+        if(lessonAlreadyExists) {
             throw new Error('lesson already exists');
         }
         

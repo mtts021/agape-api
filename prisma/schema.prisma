@@ -35,3 +35,9 @@ model lessons {
   magazines   magazines @relation(fields: [magazinesSlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
   magazinesSlug String
 }
+
+model admin {
+  id            String @id
+  username      String
+  password      String
+}
