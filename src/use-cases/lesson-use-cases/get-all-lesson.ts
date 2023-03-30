@@ -9,9 +9,6 @@ export class GetAllLesson {
 
     async execute(magazineSlug: string): Promise<Lesson[]> {
         const allLessons = await this.lessonRepository.getAll(magazineSlug);
-        if(allLessons.length <= 0) {
-            throw new Error('no registered lesson');
-        }
         return allLessons;
     }
 }

@@ -31,12 +31,4 @@ describe('Get Terms', ()=> {
 
         expect(magazines).toHaveLength(2);
     });
-    it('should not be able to get all magazines if you don\'t have any registered', async()=> {
-        const magazineRepository = new InMemoryMagazineRepository();
-        const getAllMagazine = new GetAllMagazine(magazineRepository);
-
-        expect(async ()=> {
-            await getAllMagazine.execute();
-        }).toThrowError;
-    });
 });

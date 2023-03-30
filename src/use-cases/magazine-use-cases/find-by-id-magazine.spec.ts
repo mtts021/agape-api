@@ -19,9 +19,7 @@ describe('Find by id magazine',() => {
             ageGroup: 'Jovens'
         });
 
-        expect( async ()=> {
-            await findByIdMagazine.execute(magazine.id);
-        }).toBeTruthy;
+        await expect(findByIdMagazine.execute(magazine.id)).resolves.toBeTruthy();
     });
 
     it('should not be able to find a non existing magazine', async () => {
@@ -38,8 +36,6 @@ describe('Find by id magazine',() => {
             ageGroup: 'Jovens'
         });
 
-        expect( async ()=> {
-            await findByIdMagazine.execute('example-id-fake');
-        }).toThrowError;
+        await expect(findByIdMagazine.execute('example-id-fake')).rejects.toThrowError();
     });
 });

@@ -51,8 +51,6 @@ describe('Find By id Lessons', async  ()=> {
     });
 
     it('should not be able to find by slug a non existing lesson', async () => {
-        expect( async ()=> {
-            await findByIdLesson.execute('example-id-fake');
-        }).toThrowError;
+        await expect(findByIdLesson.execute('example-id-fake')).rejects.toThrowError();
     });
 });

@@ -45,8 +45,6 @@ describe('Find by slug magazine',() => {
             ageGroup: 'Jovens'
         });
 
-        expect( async ()=> {
-            await findBySlugMagazine.execute('example-slug-fake');
-        }).toBeTruthy;
+        await expect(findBySlugMagazine.execute('example-slug-fake')).rejects.toBeTruthy();
     });
 });

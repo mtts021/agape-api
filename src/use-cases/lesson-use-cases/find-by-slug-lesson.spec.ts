@@ -52,8 +52,6 @@ describe('Find by id Lessons', async ()=> {
     });
 
     it('should not be able to find by slug a non existing lesson', async () => {
-        expect( async ()=> {
-            await findByIdLesson.execute(magazine.slug,'example-id-fake');
-        }).toThrowError;
+        await expect(findByIdLesson.execute(magazine.slug,'example-id-fake')).rejects.toThrowError();
     });
 });

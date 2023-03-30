@@ -53,11 +53,4 @@ describe('Get All Lessons', async () => {
         const lessons = await getAllLesson.execute(slug);
         expect(lessons).toHaveLength(2);
     });
-
-    it('should not be able to get all lesson if you don\'t have any registered', async()=> {
-
-        expect(async ()=> {
-            await getAllLesson.execute(slug);
-        }).toThrowError;
-    });
 });
